@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">小达的外挂</string>
+    <string name="description">小达的专用红包挂件</string>
+    <string name="function_1">设置无障碍功能</string>
+    <string name="function_2">设置长亮</string>
+    <string name="image_description">分割线</string>
+    <string name="service_send_broadcast">点击查看服务运行</string>
+    <string name="service_receive_text_off">未开启</string>
+    <string name="service_receive_text_on">开启</string>
+    <string name="send_power_down_text">重启服务</string>
+</resources>
