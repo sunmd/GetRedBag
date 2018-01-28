@@ -19,10 +19,10 @@ public class Constant {
     public static final String LAUNCHER_UI = "com.tencent.mm.ui.LauncherUI";
     public static final String LUCKY_MONEY_RECEIVE = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI";
     public static final String LUCKY_MONEY_DETAIL = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI";
-    public static final String BAD_DETAIL_ID = "com.tencent.mm:id/bed";
+    public static final String BAD_DETAIL_ID = "com.tencent.mm:id/h4";
 
-    public static final String CATCH_MONEY_ID = "com.tencent.mm:id/be_";
-    public static final String EXIT_MONEY_ID = "com.tencent.mm:id/gr";
+    public static final String CATCH_MONEY_ID = "com.tencent.mm:id/c2i";
+    public static final String EXIT_MONEY_ID = "com.tencent.mm:id/h4";
 
     public static final String WINDOW_CHANT = "android.widget.TextView";
 

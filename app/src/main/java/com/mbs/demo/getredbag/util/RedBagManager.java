@@ -1,14 +1,20 @@
 package com.mbs.demo.getredbag.util;
 
+import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.GestureDescription;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.graphics.Path;
+import android.os.Build;
 import android.os.Parcelable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.mbs.demo.getredbag.constant.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,10 +27,11 @@ public class RedBagManager {
 
     private static RedBagManager instance;
 
-    private List<AccessibilityNodeInfo> parents;
+    private List<AccessibilityNodeInfo> parents = new ArrayList<AccessibilityNodeInfo>();
     private boolean lockStateChangeFlag = false;
     private boolean lockContentChangeFlag = false;
     private AccessibilityNodeInfo mAccessibilityNodeInfo;
+    private static AccessibilityService mAccessibilityService;
 
     static {
         instance = new RedBagManager();
@@ -79,7 +86,8 @@ public class RedBagManager {
                 getLastPacket();
                 break;
             case Constant.LUCKY_MONEY_RECEIVE:
-                inputClick(Constant.CATCH_MONEY_ID, Constant.BAD_DETAIL_ID);
+                //inputClick(Constant.CATCH_MONEY_ID, Constant.BAD_DETAIL_ID);
+                moneyReceive();
                 lockContentChangeFlag = true;
                 lockStateChangeFlag = true;
                 break;
@@ -89,6 +97,38 @@ public class RedBagManager {
                 lockStateChangeFlag = true;
                 break;
         }
+    }
+
+    private void moneyReceive() {
+
+        Log.d("moneyReceive", "this is start");
+
+        Path path = new Path();
+
+        path.moveTo(540, 1050);
+
+        GestureDescription.Builder builder = new GestureDescription.Builder();
+        GestureDescription gestureDescription = builder.addStroke(new GestureDescription.StrokeDescription(path, 450, 50)).build();
+        if(mAccessibilityService == null ) {
+            Log.e("moneyReceive", "mAccessibilityService is null !");
+            return;
+        }
+        mAccessibilityService.dispatchGesture(gestureDescription, new AccessibilityService.GestureResultCallback() {
+            @Override
+            public void onCompleted(GestureDescription gestureDescription) {
+                Log.d("test", "onCompleted");
+
+                super.onCompleted(gestureDescription);
+            }
+
+            @Override
+            public void onCancelled(GestureDescription gestureDescription) {
+                Log.d("test", "onCancelled");
+
+                super.onCancelled(gestureDescription);
+            }
+        }, null);
+
     }
 
     private void checkNotification(AccessibilityEvent event) {
@@ -171,6 +211,7 @@ public class RedBagManager {
      * @param info
      */
     public void recycle(AccessibilityNodeInfo info) {
+        Log.d("recycle", "info = " + info);
         if (info.getChildCount() == 0) {
             if (info.getText() != null) {
                 if (Constant.CATCH_CHANT_CONTENT.equals(info.getText().toString())) {
@@ -197,4 +238,7 @@ public class RedBagManager {
     }
 
 
+    public static void setAccessibilityService(AccessibilityService accessibilityService) {
+        mAccessibilityService = accessibilityService;
+    }
 }

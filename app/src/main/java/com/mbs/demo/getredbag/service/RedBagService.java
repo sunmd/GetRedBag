@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.mbs.demo.getredbag.constant.Constant;
 import com.mbs.demo.getredbag.recerive.ServiceReceiver;
@@ -29,6 +30,7 @@ public class RedBagService extends AccessibilityService implements ServiceReceiv
         mServiceReceiver = new ServiceReceiver();
         mServiceReceiver.setOnPerform(this);
         registerReceiver(mServiceReceiver,intentFilter);
+        RedBagManager.setAccessibilityService(this);
     }
 
     @Override
@@ -37,17 +39,31 @@ public class RedBagService extends AccessibilityService implements ServiceReceiv
         Long startTime = System.currentTimeMillis();
         switch (eventType) {
             case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
-                RedBagManager.getInstance().access(event, Constant.NOTIFICATION_STATE_CHANGE);
+                RedBagManager.getInstance().access( event, Constant.NOTIFICATION_STATE_CHANGE);
                 long endTime = System.currentTimeMillis();
                 Log.d(TAG, "onAccessibilityEvent: cast time = " + (endTime - startTime));
                 break;
             case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
-                RedBagManager.getInstance().access(event, Constant.WINDOW_CONTENT_CHANGE, getRootInActiveWindow());
+
+                AccessibilityNodeInfo getRootInfo = getRootInActiveWindow();
+                Log.d("onAccessibilityEvent", "getRootInfo = " + getRootInfo);
+
+                if (getRootInfo == null ) return;
+
+                RedBagManager.getInstance().access( event, Constant.WINDOW_CONTENT_CHANGE, getRootInfo);
                 endTime = System.currentTimeMillis();
+
                 Log.d(TAG, "onAccessibilityEvent: cast time = " + (endTime - startTime));
                 break;
+
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
-                RedBagManager.getInstance().access(event, Constant.WINDOW_STATE_CHANGE, getRootInActiveWindow());
+
+                AccessibilityNodeInfo getRootInfo2 = getRootInActiveWindow();
+                Log.d("onAccessibilityEvent", "getRootInfo2 = " + getRootInfo2);
+
+                if (getRootInfo2 == null ) return;
+
+                RedBagManager.getInstance().access( event, Constant.WINDOW_STATE_CHANGE, getRootInfo2);
                 endTime = System.currentTimeMillis();
                 Log.d(TAG, "onAccessibilityEvent: cast time = " + (endTime - startTime));
                 break;

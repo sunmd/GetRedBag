@@ -6,4 +6,6 @@
     android:canRetrieveWindowContent="true"
     android:description="@string/description"
     android:notificationTimeout="100"
-    android:packageNames="com.tencent.mm" />
+    android:packageNames="com.tencent.mm"
+    android:canPerformGestures="true"
+    />
